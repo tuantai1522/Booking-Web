@@ -8,6 +8,11 @@ const {
   UpdateRoomFunc,
 } = require("../controllers/roomApiController.js");
 
+const {
+  ReadSettingFunc,
+  UpdateSettingFunc,
+} = require("../controllers/settingApiController.js");
+
 const uploadImage = require("../middleware/uploadImage.js");
 
 const router = express.Router();
@@ -22,5 +27,9 @@ router.put("/rooms/update", uploadImage, UpdateRoomFunc);
 
 //CRUD => Create - Read - Update - Delete GUEST
 router.get("/guests/read", ReadGuestFunc);
+
+//CRUD => Create - Read - Update - Delete SETTING
+router.get("/settings/read", ReadSettingFunc);
+router.put("/settings/update", UpdateSettingFunc);
 
 module.exports = router;

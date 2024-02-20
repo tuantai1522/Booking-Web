@@ -95,9 +95,11 @@ function CreateCabinForm({ roomToEdit }) {
           </Grid>
           {errors?.name?.message && (
             <>
-              <Typography variant="h6" color="error">
-                {errors?.name?.message}
-              </Typography>
+              <Grid item xs={5}>
+                <Typography variant="h6" color="error">
+                  {errors?.name?.message}
+                </Typography>
+              </Grid>
             </>
           )}
         </Grid>
@@ -125,7 +127,7 @@ function CreateCabinForm({ roomToEdit }) {
           </Grid>
           {errors?.maxCapacity?.message && (
             <>
-              <Grid item xs={2}>
+              <Grid item xs={5}>
                 <Typography variant="h6" color="error">
                   {errors?.maxCapacity?.message}
                 </Typography>
@@ -157,7 +159,7 @@ function CreateCabinForm({ roomToEdit }) {
           </Grid>
           {errors?.regularPrice?.message && (
             <>
-              <Grid item xs={4}>
+              <Grid item xs={5}>
                 <Typography variant="h6" color="error">
                   {errors?.regularPrice?.message}
                 </Typography>
@@ -189,7 +191,7 @@ function CreateCabinForm({ roomToEdit }) {
           </Grid>
           {errors?.discount?.message && (
             <>
-              <Grid item xs={4}>
+              <Grid item xs={5}>
                 <Typography variant="h6" color="error">
                   {errors?.discount?.message}
                 </Typography>
@@ -217,7 +219,7 @@ function CreateCabinForm({ roomToEdit }) {
           </Grid>
           {errors?.description?.message && (
             <>
-              <Grid item xs={4}>
+              <Grid item xs={5}>
                 <Typography variant="h6" color="error">
                   {errors?.description?.message}
                 </Typography>
@@ -243,10 +245,11 @@ function CreateCabinForm({ roomToEdit }) {
           </Grid>
         </Grid>
 
-        <Grid style={{ marginTop: "2rem" }} container alignItems="center">
+        <Grid container style={{ marginTop: "2rem" }} alignItems="center">
           <Grid item xs={2}></Grid>
+
           <Grid item xs={5}>
-            <Grid justifyContent="flex-end" container gap="4rem">
+            <Grid container gap="4rem" justifyContent="flex-end">
               <Button
                 disabled={isProcessing}
                 color="secondary"
@@ -265,6 +268,7 @@ function CreateCabinForm({ roomToEdit }) {
               </Button>
             </Grid>
           </Grid>
+          <Grid item xs={5}></Grid>
         </Grid>
       </form>
     </>

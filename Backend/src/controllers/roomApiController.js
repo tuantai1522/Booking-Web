@@ -62,7 +62,6 @@ const DeleteRoomFunc = async (req, res) => {
 };
 
 const UpdateRoomFunc = async (req, res) => {
-  console.log(req.body);
   try {
     const data = await updateRoom(req.body);
     return res.status(200).json({
