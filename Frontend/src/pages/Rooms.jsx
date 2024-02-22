@@ -1,10 +1,9 @@
-import { Typography, Grid, Button } from "@mui/material";
+import { Typography, Grid } from "@mui/material";
 import RoomTable from "../features/rooms/RoomTable.jsx";
-import { useState } from "react";
-import CreateCabinForm from "../features/rooms/CreateRoomForm.jsx";
+import AddRoom from "../features/rooms/AddRoom.jsx";
+import RoomTableOperation from "../features/rooms/RoomTableOperation.jsx";
 
 function Rooms() {
-  const [showAddForm, setShowAddForm] = useState(false);
   return (
     <>
       <Grid container justifyContent="space-between" alignItems="center">
@@ -14,18 +13,15 @@ function Rooms() {
           </Typography>
         </Grid>
         <Grid item>
-          <Grid container gap="4rem">
-            <Button
-              onClick={() => setShowAddForm((show) => !show)}
-              component="h1"
-              size="large"
-              variant="contained"
-            >
-              Add new room
-            </Button>
-            <Typography variant="h2" component="h2">
-              Filter/Sort
-            </Typography>
+          <AddRoom />
+        </Grid>
+        <Grid container justifyContent="flex-end" alignItems="center">
+          <Grid item>
+            <Grid container gap="4rem" alignItems="center">
+              <Typography variant="h2" component="h2">
+                <RoomTableOperation />
+              </Typography>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
@@ -33,7 +29,6 @@ function Rooms() {
         Table
       </Typography>
       <RoomTable />
-      {showAddForm && <CreateCabinForm />}
     </>
   );
 }

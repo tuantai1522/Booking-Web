@@ -8,14 +8,14 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Booking.belongsTo(models.Guest, { foreignKey: "guestId" }); // Quan hệ ngược lại với mô hình Guest
+      Booking.belongsTo(models.Room, { foreignKey: "roomId" }); // Quan hệ ngược lại với mô hình Room
     }
   }
   Booking.init(
     {
       startDate: DataTypes.DATE,
       endDate: DataTypes.DATE,
-      numNights: DataTypes.INTEGER,
       numGuests: DataTypes.INTEGER,
       roomPrice: DataTypes.DOUBLE,
       extraPrice: DataTypes.DOUBLE,

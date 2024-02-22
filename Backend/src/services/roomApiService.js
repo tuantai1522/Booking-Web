@@ -5,9 +5,14 @@ const { deleteImageOnCloudinary } = require("../utils/helper.js");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const readRoom = async () => {
+const readRoom = async (filter, sort) => {
   try {
-    const guests = await db.Room.findAll({
+    const parts = sort.split("-"); // Cắt chuỗi thành mảng bằng dấu gạch ngang
+
+    //parts[0] = regularPrice
+    //parts[1] = DESC
+    //SORT
+    let rooms = await db.Room.findAll({
       attributes: [
         "id",
         "name",
@@ -17,13 +22,21 @@ const readRoom = async () => {
         "image",
         "description",
       ],
+      order: [[parts[0], parts[1]]],
     });
 
-    if (guests) {
+    if (rooms) {
+      //FILTER
+      if (filter === "no-discount") {
+        rooms = rooms.filter((room) => room.discount === 0);
+      } else if (filter === "with-discount") {
+        rooms = rooms.filter((room) => room.discount > 0);
+      }
+
       return {
         EM: "get data successfully",
         EC: "0",
-        DT: guests,
+        DT: rooms,
       };
     } else {
       return {

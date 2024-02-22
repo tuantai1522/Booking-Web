@@ -1,5 +1,13 @@
 import styled from "styled-components";
 
+import CloseIcon from "@mui/icons-material/Close";
+
+import { createPortal } from "react-dom";
+
+import { cloneElement, createContext, useContext, useState } from "react";
+import { Button } from "@mui/material";
+import { useOutsideModalClick } from "../hooks/useOutsideModalClick";
+
 const StyledModal = styled.div`
   position: fixed;
   top: 50%;
@@ -24,27 +32,60 @@ const Overlay = styled.div`
   transition: all 0.5s;
 `;
 
-const Button = styled.button`
-  background: none;
-  border: none;
-  padding: 0.4rem;
-  border-radius: var(--border-radius-sm);
-  transform: translateX(0.8rem);
-  transition: all 0.2s;
-  position: absolute;
-  top: 1.2rem;
-  right: 1.9rem;
+const ModalContext = createContext();
 
-  &:hover {
-    background-color: var(--color-grey-100);
-  }
+//1.Parent Component
+const Modal = ({ children }) => {
+  const [currentWindowName, setCurrentWindowName] = useState("");
 
-  & svg {
-    width: 2.4rem;
-    height: 2.4rem;
-    /* Sometimes we need both */
-    /* fill: var(--color-grey-500);
-    stroke: var(--color-grey-500); */
-    color: var(--color-grey-500);
-  }
-`;
+  const open = setCurrentWindowName;
+  const close = () => setCurrentWindowName("");
+
+  return (
+    <ModalContext.Provider value={{ currentWindowName, close, open }}>
+      {children}
+    </ModalContext.Provider>
+  );
+};
+
+//2.Children Component
+const Open = ({ children, openWindowName }) => {
+  const { open } = useContext(ModalContext);
+
+  //Truyền hàm open qua cho Button trong thẻ Open sài cloneElement
+  return cloneElement(children, {
+    onClick: () => open(openWindowName),
+  });
+};
+
+const Window = ({ children, windowName }) => {
+  const { currentWindowName, close } = useContext(ModalContext);
+
+  const ref = useOutsideModalClick(close);
+
+  if (windowName !== currentWindowName) return null;
+
+  return createPortal(
+    <Overlay>
+      <StyledModal ref={ref}>
+        <Button
+          style={{ position: "absolute", top: "0", right: "0" }}
+          onClick={close}
+        >
+          <CloseIcon />
+        </Button>
+
+        {/* Truyền close function để toàn bộ childComponent có thể sài */}
+        <div>{cloneElement(children, { onCloseModal: close })}</div>
+      </StyledModal>
+    </Overlay>,
+
+    // body is parent of this jsx element document.body );
+    document.body
+  );
+};
+
+Modal.Open = Open;
+Modal.Window = Window;
+
+export default Modal;

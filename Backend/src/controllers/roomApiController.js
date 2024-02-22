@@ -24,8 +24,11 @@ const CreateRoomFunc = async (req, res) => {
 };
 
 const ReadRoomFunc = async (req, res) => {
+  const filter = req.query.filter;
+  const sort = req.query.sort;
+
   try {
-    const data = await readRoom();
+    const data = await readRoom(filter, sort);
     return res.status(200).json({
       EM: data.EM,
       EC: data.EC,

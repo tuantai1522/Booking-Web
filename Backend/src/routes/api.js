@@ -13,6 +13,8 @@ const {
   UpdateSettingFunc,
 } = require("../controllers/settingApiController.js");
 
+const { ReadBookingFunc } = require("../controllers/bookingApiController.js");
+
 const uploadImage = require("../middleware/uploadImage.js");
 
 const router = express.Router();
@@ -27,6 +29,9 @@ router.put("/rooms/update", uploadImage, UpdateRoomFunc);
 
 //CRUD => Create - Read - Update - Delete GUEST
 router.get("/guests/read", ReadGuestFunc);
+
+//CRUD => Create - Read - Update - Delete BOOKING
+router.get("/bookings/read", ReadBookingFunc);
 
 //CRUD => Create - Read - Update - Delete SETTING
 router.get("/settings/read", ReadSettingFunc);

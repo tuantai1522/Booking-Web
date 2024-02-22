@@ -34,20 +34,19 @@ const Amount = styled.div`
   font-weight: 500;
 `;
 
-function BookingRow({
-  booking: {
-    id: bookingId,
-    created_at,
+function BookingRow({ booking }) {
+  const {
     startDate,
     endDate,
-    numNights,
-    numGuests,
-    totalPrice,
+    roomPrice,
+    extraPrice,
     status,
-    guests: { fullName: guestName, email },
-    cabins: { name: cabinName },
-  },
-}) {
+    Guest: { fullName: guestName, email },
+    Room: { name: roomName },
+  } = booking;
+
+  const totalPrice = roomPrice + extraPrice;
+
   const statusToTagName = {
     unconfirmed: "blue",
     "checked-in": "green",
@@ -56,7 +55,7 @@ function BookingRow({
 
   return (
     <Table.Row>
-      <Cabin>{cabinName}</Cabin>
+      <Cabin>{roomName}</Cabin>
 
       <Stacked>
         <span>{guestName}</span>
@@ -68,7 +67,6 @@ function BookingRow({
           {isToday(new Date(startDate))
             ? "Today"
             : formatDistanceFromNow(startDate)}{" "}
-          &rarr; {numNights} night stay
         </span>
         <span>
           {format(new Date(startDate), "MMM dd yyyy")} &mdash;{" "}

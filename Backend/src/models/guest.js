@@ -6,7 +6,11 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
 
       Guest.belongsTo(models.Group);
-      Guest.belongsToMany(models.Room, { through: "Booking" });
+
+      Guest.belongsToMany(models.Room, {
+        through: "Booking",
+        foreignKey: "guestId",
+      });
     }
   }
   Guest.init(

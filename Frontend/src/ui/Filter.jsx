@@ -1,14 +1,7 @@
+import { Button, Grid } from "@mui/material";
 import styled, { css } from "styled-components";
 
-const StyledFilter = styled.div`
-  border: 1px solid var(--color-grey-100);
-  background-color: var(--color-grey-0);
-  box-shadow: var(--shadow-sm);
-  border-radius: var(--border-radius-sm);
-  padding: 0.4rem;
-  display: flex;
-  gap: 0.4rem;
-`;
+import { useSearchParams } from "react-router-dom";
 
 const FilterButton = styled.button`
   background-color: var(--color-grey-0);
@@ -33,3 +26,41 @@ const FilterButton = styled.button`
     color: var(--color-brand-50);
   }
 `;
+
+function Filter({ filterField = "filter", options }) {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  if (searchParams.get(filterField) === null) {
+    searchParams.set(filterField, options[0].value);
+    setSearchParams(searchParams);
+  }
+
+  function handleClick(value) {
+    searchParams.set(filterField, value);
+    setSearchParams(searchParams);
+
+    //quay về trang 1
+
+    if (searchParams.get("curPage") !== null) {
+      searchParams.set("curPage", 1);
+      setSearchParams(searchParams);
+    }
+  }
+
+  return (
+    <Grid gap="1rem" container alignItems="center">
+      {options.map((option) => (
+        <FilterButton
+          active={searchParams.get(filterField) === option.value}
+          onClick={() => handleClick(option.value)}
+          variant="contained"
+          key={option.value}
+        >
+          {option.label}
+        </FilterButton>
+      ))}
+    </Grid>
+  );
+}
+
+export default Filter;

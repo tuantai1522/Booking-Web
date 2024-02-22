@@ -1,33 +1,14 @@
-import styled from "styled-components";
+import Table from "../../ui/Table.jsx";
 
 import Spinner from "../../ui/Spinner.jsx";
 import RoomRow from "../rooms/RoomRow.jsx";
 import { useReadRoom } from "../../customHooks/useRoom/useReadRoom.js";
 
-const Table = styled.div`
-  border: 1px solid var(--color-grey-200);
-
-  font-size: 1.4rem;
-  background-color: var(--color-grey-0);
-  border-radius: 7px;
-  overflow: hidden;
-  padding: 2rem;
-`;
-
-const TableHeader = styled.header`
-  display: grid;
-  grid-template-columns: 0.6fr 1.2fr 2.2fr 1fr 1fr 1fr;
-  align-items: center;
-  justify-content: center;
-
-  background-color: var(--color-grey-50);
-  border-bottom: 1px solid var(--color-grey-100);
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  font-weight: 600;
-  color: var(--color-grey-600);
-  padding: 1.6rem 1.6rem;
-`;
+import { useSearchParams } from "react-router-dom";
+import {
+  DEFAULT_FILTER_ROOM_NAME,
+  DEFAULT_SORT_ROOM_NAME,
+} from "../../utils/config.js";
 
 function RoomTable() {
   const { isFetching, rooms, error } = useReadRoom();
@@ -35,19 +16,20 @@ function RoomTable() {
   if (isFetching) return <Spinner />;
 
   return (
-    <Table role="table">
-      <TableHeader>
+    <Table columns={"0.6fr 1.2fr 2.2fr 1fr 1fr 1fr"}>
+      <Table.Header>
         <div></div>
         <div>Room</div>
         <div>Capacity</div>
         <div>Price</div>
         <div>Discount</div>
         <div></div>
-      </TableHeader>
+      </Table.Header>
 
-      {rooms.map((room) => (
-        <RoomRow room={room} key={room.id} />
-      ))}
+      <Table.Body
+        data={rooms}
+        render={(room) => <RoomRow room={room} key={room.id} />}
+      />
     </Table>
   );
 }

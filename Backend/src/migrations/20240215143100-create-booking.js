@@ -13,9 +13,6 @@ module.exports = {
       endDate: {
         type: Sequelize.DATE,
       },
-      numNights: {
-        type: Sequelize.INTEGER,
-      },
       numGuests: {
         type: Sequelize.INTEGER,
       },

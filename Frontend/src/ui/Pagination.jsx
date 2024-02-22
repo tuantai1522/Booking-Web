@@ -1,57 +1,64 @@
-import styled from "styled-components";
+import { Button, Grid, Typography } from "@mui/material";
 
-const StyledPagination = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
-const P = styled.p`
-  font-size: 1.4rem;
-  margin-left: 0.8rem;
+import { useSearchParams } from "react-router-dom";
 
-  & span {
-    font-weight: 600;
-  }
-`;
+import { DEFAULT_PAGE_SIZE } from "../utils/config.js";
 
-const Buttons = styled.div`
-  display: flex;
-  gap: 0.6rem;
-`;
+function Pagination({ filterField = "curPage", totalPages, totalRows }) {
+  const [searchParams, setSearchParams] = useSearchParams();
 
-const PaginationButton = styled.button`
-  background-color: ${(props) =>
-    props.active ? " var(--color-brand-600)" : "var(--color-grey-50)"};
-  color: ${(props) => (props.active ? " var(--color-brand-50)" : "inherit")};
-  border: none;
-  border-radius: var(--border-radius-sm);
-  font-weight: 500;
-  font-size: 1.4rem;
+  const curPage = searchParams.get(filterField)
+    ? parseInt(searchParams.get(filterField))
+    : 1;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  padding: 0.6rem 1.2rem;
-  transition: all 0.3s;
+  const from = (curPage - 1) * DEFAULT_PAGE_SIZE + 1;
+  const to = Math.min(curPage * DEFAULT_PAGE_SIZE, totalRows);
 
-  &:has(span:last-child) {
-    padding-left: 0.4rem;
-  }
+  const handlePreviousPage = () => {
+    const prev = curPage === 1 ? curPage : curPage - 1;
 
-  &:has(span:first-child) {
-    padding-right: 0.4rem;
-  }
+    searchParams.set(filterField, prev);
+    setSearchParams(searchParams);
+  };
 
-  & svg {
-    height: 1.8rem;
-    width: 1.8rem;
-  }
+  const handleNextPage = () => {
+    const next = curPage === totalPages ? curPage : curPage + 1;
 
-  &:hover:not(:disabled) {
-    background-color: var(--color-brand-600);
-    color: var(--color-brand-50);
-  }
-`;
+    searchParams.set(filterField, next);
+    setSearchParams(searchParams);
+  };
+
+  return (
+    <Grid container alignItems="center">
+      <Grid item xs={6}>
+        <Typography
+          variant="h6"
+          component="body1"
+        >{`Showing ${from} to ${to} of ${totalRows} results`}</Typography>
+      </Grid>
+      <Grid container gap="2rem" justifyContent="flex-end" item xs={6}>
+        <Button
+          disabled={curPage === 1}
+          onClick={handlePreviousPage}
+          variant="contained"
+        >
+          <ArrowBackIosIcon />
+          Previous
+        </Button>
+        <Button
+          disabled={curPage === totalPages}
+          onClick={handleNextPage}
+          variant="contained"
+        >
+          Next
+          <ArrowForwardIosIcon />
+        </Button>
+      </Grid>
+    </Grid>
+  );
+}
+
+export default Pagination;

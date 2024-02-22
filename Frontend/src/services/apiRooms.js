@@ -1,9 +1,19 @@
 import axios from "axios";
-import { NODE_URL } from "../utils/config";
 
-const fetchAllRoom = async () => {
+import {
+  NODE_URL,
+  DEFAULT_FILTER_ROOM_NAME,
+  DEFAULT_SORT_ROOM_NAME,
+} from "../utils/config";
+
+const fetchAllRoom = async (
+  filter = DEFAULT_FILTER_ROOM_NAME,
+  sort = DEFAULT_SORT_ROOM_NAME
+) => {
   try {
-    const response = await axios.get(`${NODE_URL}/api/rooms/read`);
+    const response = await axios.get(
+      `${NODE_URL}/api/rooms/read?filter=${filter}&sort=${sort}`
+    );
     return response.data.DT;
   } catch (error) {
     console.error("Error fetching rooms:", error);
