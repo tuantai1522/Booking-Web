@@ -1,14 +1,13 @@
 import styled from "styled-components";
 
 import BookingDataBox from "./BookingDataBox";
-import Row from "../../ui/Row";
-import Heading from "../../ui/Heading";
 import Tag from "../../ui/Tag";
-import ButtonGroup from "../../ui/ButtonGroup";
-import Button from "../../ui/Button";
-import ButtonText from "../../ui/ButtonText";
+import Spinner from "../../ui/Spinner.jsx";
 
 import { useMoveBack } from "../../hooks/useMoveBack";
+import { Button, Grid, Typography } from "@mui/material";
+import { useReadBookingById } from "../../customHooks/useBooking/useReadBookingById";
+import { useNavigate } from "react-router-dom";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -17,10 +16,14 @@ const HeadingGroup = styled.div`
 `;
 
 function BookingDetail() {
-  const booking = {};
-  const status = "checked-in";
+  const navigate = useNavigate();
+  const { isFetching, booking, error } = useReadBookingById();
 
   const moveBack = useMoveBack();
+
+  if (isFetching) return <Spinner />;
+
+  const { id, status } = booking;
 
   const statusToTagName = {
     unconfirmed: "blue",
@@ -30,21 +33,53 @@ function BookingDetail() {
 
   return (
     <>
-      <Row type="horizontal">
+      <Grid
+        style={{ marginBottom: "3rem" }}
+        container
+        alignItems="center"
+        justifyContent="space-between"
+      >
         <HeadingGroup>
-          <Heading as="h1">Booking #X</Heading>
+          <Typography variant="h3" component="h3">
+            Booking #{id}
+          </Typography>
           <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
         </HeadingGroup>
-        <ButtonText onClick={moveBack}>&larr; Back</ButtonText>
-      </Row>
+        <Button component="h3" variant="contained" onClick={moveBack}>
+          <Typography variant="h6" component="h6">
+            &larr; Back
+          </Typography>
+        </Button>
+      </Grid>
 
       <BookingDataBox booking={booking} />
 
-      <ButtonGroup>
-        <Button variation="secondary" onClick={moveBack}>
-          Back
-        </Button>
-      </ButtonGroup>
+      {/* Check in and check out */}
+      <Grid style={{ marginTop: "2rem" }} container justifyContent="flex-end">
+        {status === "unconfirmed" && (
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => navigate(`/checkin/${id}`)}
+          >
+            <Typography variant="h6" component="h6">
+              Check in
+            </Typography>
+          </Button>
+        )}
+
+        {status === "checked-in" && (
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => navigate(`/checkout/${id}`)}
+          >
+            <Typography color="danger" variant="h6" component="h6">
+              Check out
+            </Typography>
+          </Button>
+        )}
+      </Grid>
     </>
   );
 }

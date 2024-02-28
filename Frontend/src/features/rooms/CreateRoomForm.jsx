@@ -41,31 +41,26 @@ function CreateRoomForm({ roomToEdit, onCloseModal }) {
       image,
     };
 
-    try {
-      // If success, reset all values in form
-      const response = isEditing
-        ? await updateRoom(retrivedData, {
-            onSuccess: () => {
-              reset();
-              onCloseModal?.();
-            },
-          })
-        : await addRoom(retrivedData, {
-            onSuccess: () => {
-              reset();
-              onCloseModal?.();
-            },
-          });
+    // If success, reset all values in form
+    const response = isEditing
+      ? await updateRoom(retrivedData, {
+          onSuccess: () => {
+            reset();
+            onCloseModal?.();
+          },
+        })
+      : await addRoom(retrivedData, {
+          onSuccess: () => {
+            reset();
+            onCloseModal?.();
+          },
+        });
 
-      // Display toast
-      if (response && +response.EC === 0) {
-        toast.success(response.EM);
-      } else {
-        toast.error(response.EM);
-      }
-    } catch (error) {
-      toast.error(error.message);
-      throw error;
+    // Display toast
+    if (response && +response.EC === 0) {
+      toast.success(response.EM);
+    } else {
+      toast.error(response.EM);
     }
   };
 

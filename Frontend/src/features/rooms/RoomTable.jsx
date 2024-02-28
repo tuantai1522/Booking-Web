@@ -4,12 +4,6 @@ import Spinner from "../../ui/Spinner.jsx";
 import RoomRow from "../rooms/RoomRow.jsx";
 import { useReadRoom } from "../../customHooks/useRoom/useReadRoom.js";
 
-import { useSearchParams } from "react-router-dom";
-import {
-  DEFAULT_FILTER_ROOM_NAME,
-  DEFAULT_SORT_ROOM_NAME,
-} from "../../utils/config.js";
-
 function RoomTable() {
   const { isFetching, rooms, error } = useReadRoom();
 
@@ -23,7 +17,7 @@ function RoomTable() {
         <div>Capacity</div>
         <div>Price</div>
         <div>Discount</div>
-        <div></div>
+        <div>Actions</div>
       </Table.Header>
 
       <Table.Body

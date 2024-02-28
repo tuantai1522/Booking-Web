@@ -8,17 +8,6 @@ import EditRoom from "./EditRoom.jsx";
 import DeleteRoom from "./DeleteRoom.jsx";
 import Table from "../../ui/Table.jsx";
 
-const TableRow = styled.div`
-  display: grid;
-  grid-template-columns: 0.6fr 1.2fr 2.2fr 1fr 1fr 1fr;
-  align-items: center;
-  padding: 1.6rem 1.6rem;
-
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-`;
-
 const Img = styled.img`
   display: block;
   width: 6.4rem;

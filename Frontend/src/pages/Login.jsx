@@ -1,12 +1,6 @@
-import { Typography } from "@mui/material";
+import LoginForm from "../features/authentication/LoginForm";
 function Login() {
-  return (
-    <>
-      <Typography variant="h1" component="h1">
-        Login
-      </Typography>
-    </>
-  );
+  return <LoginForm />;
 }
 
 export default Login;

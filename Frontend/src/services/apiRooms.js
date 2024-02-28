@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../setup/axios";
 
 import {
   NODE_URL,
@@ -14,7 +14,7 @@ const fetchAllRoom = async (
     const response = await axios.get(
       `${NODE_URL}/api/rooms/read?filter=${filter}&sort=${sort}`
     );
-    return response.data.DT;
+    return response.DT;
   } catch (error) {
     console.error("Error fetching rooms:", error);
     throw error;
@@ -27,7 +27,7 @@ const deleteRoom = async (roomId) => {
       `${NODE_URL}/api/rooms/delete?roomId=${roomId}`
     );
 
-    return response.data;
+    return response;
   } catch (error) {
     console.error("Error deleting room:", error);
     throw error;
@@ -37,7 +37,7 @@ const deleteRoom = async (roomId) => {
 const addRoom = async (data) => {
   try {
     const response = await axios.post(`${NODE_URL}/api/rooms/create`, data);
-    return response.data;
+    return response;
   } catch (error) {
     console.error("Error addring room:", error);
     throw error;
@@ -47,7 +47,7 @@ const addRoom = async (data) => {
 const updateRoom = async (data) => {
   try {
     const response = await axios.put(`${NODE_URL}/api/rooms/update`, data);
-    return response.data;
+    return response;
   } catch (error) {
     console.error("Error updating room:", error);
     throw error;

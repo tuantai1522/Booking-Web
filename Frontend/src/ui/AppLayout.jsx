@@ -7,7 +7,6 @@ import Sidebar from "../ui/Sidebar.jsx";
 import GlobalStyles from "../styles/GlobalStyles.jsx";
 import styled from "styled-components";
 
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Main = styled.main`
@@ -22,16 +21,10 @@ function AppLayout() {
     <>
       <GlobalStyles />
       <Grid container spacing={2} sx={{ height: "100vh" }}>
-        <Grid
-          item
-          xs={3}
-          sx={{
-            borderRight: "1px solid",
-          }}
-        >
+        <Grid item xs={3}>
           <Sidebar />
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={9} style={{ paddingLeft: "0rem" }}>
           <Grid container>
             <Grid item xs={12}>
               <Header />
@@ -44,20 +37,6 @@ function AppLayout() {
           </Grid>
         </Grid>
       </Grid>
-
-      {/* Display toast */}
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
     </>
   );
 }

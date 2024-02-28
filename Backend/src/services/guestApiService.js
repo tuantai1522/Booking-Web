@@ -1,6 +1,4 @@
-const db = require("../models/index.js");
-
-const readGuest = async () => {
+const readGuests = async () => {
   try {
     const guests = await db.Guest.findAll({
       attributes: ["id", "fullName", "email"],
@@ -30,6 +28,30 @@ const readGuest = async () => {
   }
 };
 
+const readGuestByEmail = async (email) => {
+  try {
+    const guest = await db.Guest.findOne({
+      where: {
+        email: email,
+      },
+    });
+
+    return {
+      EM: "get data successfully",
+      EC: "0",
+      DT: guest,
+    };
+  } catch (e) {
+    console.log(e);
+    return {
+      EM: "can not get data",
+      EC: "-1",
+      DT: [],
+    };
+  }
+};
+
 module.exports = {
-  readGuest,
+  readGuests,
+  readGuestByEmail,
 };

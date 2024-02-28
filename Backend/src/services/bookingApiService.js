@@ -12,7 +12,15 @@ const readBooking = async (
     const parts = sort.split("-"); // Cắt chuỗi thành mảng bằng dấu gạch ngang
 
     let bookings = await db.Booking.findAll({
-      attributes: ["startDate", "endDate", "roomPrice", "extraPrice", "status"],
+      attributes: [
+        "id",
+        "startDate",
+        "endDate",
+        "roomPrice",
+        "extraPrice",
+        "status",
+        "createdAt",
+      ],
       include: [
         { model: db.Guest, attributes: ["fullName", "email"] },
         {
@@ -94,6 +102,105 @@ const readBooking = async (
   }
 };
 
+const readBookingById = async (id) => {
+  try {
+    const booking = await db.Booking.findOne({
+      include: [
+        {
+          model: db.Guest,
+          attributes: ["fullName", "email", "country", "countryFlag"],
+        },
+        {
+          model: db.Room,
+          attributes: ["name"],
+        },
+      ],
+      where: {
+        id: id,
+      },
+    });
+
+    return {
+      EM: "get data successfully",
+      EC: "0",
+      DT: booking,
+    };
+  } catch (e) {
+    console.log(e);
+    return {
+      EM: "can not get data",
+      EC: "-1",
+      DT: [],
+    };
+  }
+};
+
+const updateBooking = async (data) => {
+  const {
+    bookingId,
+    status,
+    breakFast: { extraPrice, hasBreakfast },
+  } = data;
+
+  try {
+    const booking = await db.Booking.findOne({
+      where: {
+        id: bookingId,
+      },
+    });
+
+    if (booking) {
+      //Update check in
+
+      if (data.status === "unconfirmed") {
+        await db.Booking.update(
+          {
+            status: "checked-in",
+            isPaid: 1,
+            extraPrice: extraPrice,
+            hasBreakfast: hasBreakfast,
+          },
+          {
+            where: {
+              id: bookingId,
+            },
+          }
+        );
+      } else if (status === "checked-in") {
+        await db.Booking.update(
+          {
+            status: "checked-out",
+          },
+          {
+            where: {
+              id: bookingId,
+            },
+          }
+        );
+      }
+      return {
+        EM: "update booking successfully",
+        EC: "0",
+        DT: [],
+      };
+    } else {
+      return {
+        EM: "Can not find booking to update",
+        EC: "1",
+        DT: [],
+      };
+    }
+  } catch (e) {
+    console.log(e);
+    return {
+      EM: "can not get data",
+      EC: "-1",
+      DT: [],
+    };
+  }
+};
 module.exports = {
   readBooking,
+  readBookingById,
+  updateBooking,
 };

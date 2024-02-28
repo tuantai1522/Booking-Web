@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../setup/axios";
 import {
   NODE_URL,
   DEFAULT_FILTER_BOOKING_NAME,
@@ -16,11 +16,32 @@ const fetchAllBooking = async (
       `${NODE_URL}/api/bookings/read?filter=${filter}&sort=${sort}&curPage=${curPage}`
     );
 
-    return response.data.DT;
+    return response.DT;
   } catch (error) {
     console.error("Error fetching rooms:", error);
     throw error;
   }
 };
 
-export { fetchAllBooking };
+const fetchBookingById = async (id) => {
+  try {
+    const response = await axios.get(`${NODE_URL}/api/bookings/read/${id}`);
+
+    return response;
+  } catch (error) {
+    console.error("Error fetching rooms:", error);
+    throw error;
+  }
+};
+
+const updateBooking = async (data) => {
+  try {
+    const response = await axios.put(`${NODE_URL}/api/bookings/update`, data);
+    return response;
+  } catch (error) {
+    console.error("Error updating room:", error);
+    throw error;
+  }
+};
+
+export { fetchAllBooking, fetchBookingById, updateBooking };

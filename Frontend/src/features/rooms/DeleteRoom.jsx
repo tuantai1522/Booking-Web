@@ -12,18 +12,13 @@ function DeleteRoom({ roomIdToDelete }) {
 
   // Khi bạn muốn gọi hàm mutateFn:
   const onDelete = async (id) => {
-    try {
-      const response = await deleteRoom(roomIdToDelete);
+    const response = await deleteRoom(roomIdToDelete);
 
-      // Display toast
-      if (response && +response.EC === 0) {
-        toast.success(response.EM);
-      } else {
-        toast.error(response.EM);
-      }
-    } catch (error) {
-      toast.error(error.message);
-      throw error;
+    // Display toast
+    if (response && +response.EC === 0) {
+      toast.success(response.EM);
+    } else {
+      toast.error(response.EM);
     }
   };
 

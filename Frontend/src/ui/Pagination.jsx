@@ -14,8 +14,9 @@ function Pagination({ filterField = "curPage", totalPages, totalRows }) {
     ? parseInt(searchParams.get(filterField))
     : 1;
 
-  const from = (curPage - 1) * DEFAULT_PAGE_SIZE + 1;
-  const to = Math.min(curPage * DEFAULT_PAGE_SIZE, totalRows);
+  const from = totalPages === 0 ? 0 : (curPage - 1) * DEFAULT_PAGE_SIZE + 1;
+  const to =
+    totalPages === 0 ? 0 : Math.min(curPage * DEFAULT_PAGE_SIZE, totalRows);
 
   const handlePreviousPage = () => {
     const prev = curPage === 1 ? curPage : curPage - 1;
@@ -34,14 +35,15 @@ function Pagination({ filterField = "curPage", totalPages, totalRows }) {
   return (
     <Grid container alignItems="center">
       <Grid item xs={6}>
-        <Typography
-          variant="h6"
-          component="body1"
-        >{`Showing ${from} to ${to} of ${totalRows} results`}</Typography>
+        <Typography variant="h6" component="body1">
+          {from === 0 && to === 0
+            ? "Showing 0 results"
+            : `Showing ${from} to ${to} of ${totalRows} results`}
+        </Typography>
       </Grid>
       <Grid container gap="2rem" justifyContent="flex-end" item xs={6}>
         <Button
-          disabled={curPage === 1}
+          disabled={totalPages == 0 || curPage === 1}
           onClick={handlePreviousPage}
           variant="contained"
         >
@@ -49,7 +51,7 @@ function Pagination({ filterField = "curPage", totalPages, totalRows }) {
           Previous
         </Button>
         <Button
-          disabled={curPage === totalPages}
+          disabled={totalPages == 0 || curPage === totalPages}
           onClick={handleNextPage}
           variant="contained"
         >

@@ -1,4 +1,5 @@
 const NODE_URL = "http://localhost:8080";
+const REACT_URL = "http://127.0.0.1:5173";
 
 const DEFAULT_FILTER_ROOM_NAME = "all";
 const DEFAULT_SORT_ROOM_NAME = "regularPrice-ASC";
@@ -8,9 +9,9 @@ const DEFAULT_SORT_BOOKING_NAME = "startDate-DESC";
 
 const DEFAULT_CUR_PAGE = 1;
 const DEFAULT_PAGE_SIZE = 3;
-
 export {
   NODE_URL,
+  REACT_URL,
   DEFAULT_FILTER_ROOM_NAME,
   DEFAULT_SORT_ROOM_NAME,
   DEFAULT_FILTER_BOOKING_NAME,

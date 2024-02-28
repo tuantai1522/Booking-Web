@@ -8,7 +8,7 @@ function Bookings() {
       <Grid container justifyContent="space-between" alignItems="center">
         <Grid item>
           <Typography variant="h1" component="h1">
-            All Rooms
+            All bookings
           </Typography>
         </Grid>
         <Grid container justifyContent="flex-end" alignItems="center">

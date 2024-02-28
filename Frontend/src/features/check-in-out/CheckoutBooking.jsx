@@ -9,7 +9,7 @@ function CheckinBooking() {
 
   if (isFetching) return <Spinner />;
 
-  return <CheckBooking type="checked-in" booking={booking} />;
+  return <CheckBooking type="checked-out" booking={booking} />;
 }
 
 export default CheckinBooking;

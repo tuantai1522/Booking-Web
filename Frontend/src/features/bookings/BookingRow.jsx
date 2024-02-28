@@ -1,3 +1,7 @@
+import { ThemeProvider } from "@mui/material/styles";
+
+import createTheme from "@mui/material/styles/createTheme";
+
 import styled from "styled-components";
 import { format, isToday } from "date-fns";
 
@@ -6,6 +10,16 @@ import Table from "../../ui/Table";
 
 import { formatCurrency } from "../../utils/helpers";
 import { formatDistanceFromNow } from "../../utils/helpers";
+import { Button, Grid } from "@mui/material";
+import { lime, purple } from "@mui/material/colors";
+import { useNavigate } from "react-router-dom";
+
+const theme = createTheme({
+  palette: {
+    primary: lime,
+    secondary: purple,
+  },
+});
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -35,7 +49,10 @@ const Amount = styled.div`
 `;
 
 function BookingRow({ booking }) {
+  console.log(booking);
+  const navigate = useNavigate();
   const {
+    id,
     startDate,
     endDate,
     roomPrice,
@@ -77,6 +94,17 @@ function BookingRow({ booking }) {
       <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
 
       <Amount>{formatCurrency(totalPrice)}</Amount>
+
+      <Grid container gap="2rem">
+        <ThemeProvider theme={theme}>
+          <Button
+            onClick={() => navigate(`/bookings/${id}`)}
+            variant="contained"
+          >
+            See details
+          </Button>
+        </ThemeProvider>
+      </Grid>
     </Table.Row>
   );
 }

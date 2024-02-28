@@ -11,6 +11,7 @@ import ScheduleIcon from "@mui/icons-material/Schedule";
 import CabinIcon from "@mui/icons-material/Cabin";
 import PersonIcon from "@mui/icons-material/Person";
 import SettingsIcon from "@mui/icons-material/Settings";
+import DashboardCustomizeOutlinedIcon from "@mui/icons-material/DashboardCustomizeOutlined";
 
 import { NavLink } from "react-router-dom";
 
@@ -55,10 +56,15 @@ const StyledNavLink = styled(NavLink)`
   }
 `;
 
+const StyledList = styled(List)`
+  background-color: var(--color-grey-50);
+  height: 100vh;
+`;
+
 function MainNav() {
   return (
     <>
-      <List>
+      <StyledList>
         <StyledNavLink component={NavLink} to="/">
           <ListItemAvatar>
             <Avatar>
@@ -67,6 +73,16 @@ function MainNav() {
           </ListItemAvatar>
           <ListItemText>
             <Typography sx={{ fontSize: "2rem" }}>Home</Typography>
+          </ListItemText>
+        </StyledNavLink>
+        <StyledNavLink component={NavLink} to="/dashboard">
+          <ListItemAvatar>
+            <Avatar>
+              <DashboardCustomizeOutlinedIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText>
+            <Typography sx={{ fontSize: "2rem" }}>Dashboard</Typography>
           </ListItemText>
         </StyledNavLink>
         <StyledNavLink component={NavLink} to="/bookings">
@@ -109,7 +125,7 @@ function MainNav() {
             <Typography sx={{ fontSize: "2rem" }}>Settings</Typography>
           </ListItemText>
         </StyledNavLink>
-      </List>
+      </StyledList>
     </>
   );
 }
