@@ -1,4 +1,4 @@
-const { logIn } = require("../services/loginApiService.js");
+const { logIn, register } = require("../services/apiService.js");
 
 const LoginFunc = async (req, res) => {
   try {
@@ -53,7 +53,25 @@ const LogoutFunc = async (req, res) => {
   }
 };
 
+const RegisterFunc = async (req, res) => {
+  try {
+    const data = await register(req.body);
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({
+      EM: "error",
+      EC: "-1",
+      DT: "",
+    });
+  }
+};
 module.exports = {
   LoginFunc,
   LogoutFunc,
+  RegisterFunc,
 };

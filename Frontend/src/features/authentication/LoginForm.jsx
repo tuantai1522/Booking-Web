@@ -14,6 +14,7 @@ import { useState } from "react";
 import { useLogin } from "../../customHooks/useLogin/useLogin";
 
 import { toast } from "react-toastify";
+import { NavLink } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -38,7 +39,7 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function LoginForm() {
-  const [email, setEmail] = useState("hello@jonas.io");
+  const [email, setEmail] = useState("admin1@gmail.com");
   const [passWord, setPassword] = useState("123456");
 
   const { isFetching, login } = useLogin();
@@ -122,14 +123,12 @@ export default function LoginForm() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
+                <NavLink variant="body2">Forgot password?</NavLink>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <NavLink to="/register" variant="body2">
                   {"Don't have an account? Sign Up"}
-                </Link>
+                </NavLink>
               </Grid>
             </Grid>
           </Box>

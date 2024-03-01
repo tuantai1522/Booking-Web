@@ -7,7 +7,6 @@ const logIn = async (data) => {
   const { email, passWord } = data;
   try {
     const guest = await db.Guest.findOne({
-      // attributes: ["id", "fullName", "email"],
       include: { model: db.Group, attributes: ["name", "description"] },
       where: { email: email, passWord: passWord },
     });
@@ -29,6 +28,7 @@ const logIn = async (data) => {
           guest: {
             email: guest.email,
             fullName: guest.fullName,
+            id: guest.id,
             groupWithRoles,
           },
         },
@@ -36,7 +36,7 @@ const logIn = async (data) => {
     } else {
       return {
         EM: "Email or password is not correct",
-        EC: "0",
+        EC: "1",
         DT: [],
       };
     }
@@ -50,6 +50,25 @@ const logIn = async (data) => {
   }
 };
 
+const register = async (guest) => {
+  try {
+    const data = { ...guest, groupId: 4 };
+    await db.Guest.create(data);
+    return {
+      EM: `Register successfully`,
+      EC: "0",
+      DT: [],
+    };
+  } catch (e) {
+    console.log(e);
+    return {
+      EM: "Register fails",
+      EC: "-1",
+      DT: [],
+    };
+  }
+};
 module.exports = {
   logIn,
+  register,
 };

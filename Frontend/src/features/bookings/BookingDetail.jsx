@@ -23,6 +23,8 @@ function BookingDetail() {
 
   if (isFetching) return <Spinner />;
 
+  if (!booking) return <Typography>No data to found</Typography>;
+
   const { id, status } = booking;
 
   const statusToTagName = {

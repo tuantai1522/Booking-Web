@@ -1,6 +1,7 @@
 import { Button, Grid, Typography } from "@mui/material";
 
-import { useGuest } from "../customHooks/useGuest/useGuest";
+import { useGuest } from "../context/GuestContext.jsx";
+
 import { useLogout } from "../customHooks/useLogout/useLogout.js";
 
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -15,11 +16,9 @@ const StyledHeader = styled.div`
 `;
 
 function Header() {
-  const { isFetching, user, error } = useGuest();
+  const { user } = useGuest();
 
   const { isFetching: isLoggingOut, logout } = useLogout();
-
-  if (isFetching || isLoggingOut) return;
 
   const { guest } = user;
 
@@ -61,7 +60,7 @@ function Header() {
           </Button>
           <DarkMode />
 
-          <Button onClick={handleLogout}>
+          <Button disabled={isLoggingOut} onClick={handleLogout}>
             <LogoutIcon style={{ fontSize: "2.5rem" }} />
           </Button>
         </Grid>

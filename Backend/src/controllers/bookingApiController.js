@@ -2,6 +2,7 @@ const {
   readBooking,
   readBookingById,
   updateBooking,
+  createBooking,
 } = require("../services/bookingApiService");
 
 const ReadBookingFunc = async (req, res) => {
@@ -65,8 +66,27 @@ const UpdateBookingFunc = async (req, res) => {
     });
   }
 };
+
+const CreateBookingFunc = async (req, res) => {
+  try {
+    const data = await createBooking(req.body);
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({
+      EM: "error",
+      EC: "-1",
+      DT: "",
+    });
+  }
+};
 module.exports = {
   ReadBookingFunc,
   ReadBookingByIdFunc,
   UpdateBookingFunc,
+  CreateBookingFunc,
 };

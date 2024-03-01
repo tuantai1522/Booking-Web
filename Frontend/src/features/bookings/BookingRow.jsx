@@ -49,7 +49,6 @@ const Amount = styled.div`
 `;
 
 function BookingRow({ booking }) {
-  console.log(booking);
   const navigate = useNavigate();
   const {
     id,

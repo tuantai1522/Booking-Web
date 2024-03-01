@@ -1,5 +1,7 @@
+import PlaceBooking from "../features/home/PlaceBooking";
+
 function Home() {
-  return <div>Home</div>;
+  return <PlaceBooking />;
 }
 
 export default Home;

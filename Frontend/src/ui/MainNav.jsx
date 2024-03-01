@@ -105,16 +105,6 @@ function MainNav() {
             <Typography sx={{ fontSize: "2rem" }}>Rooms</Typography>
           </ListItemText>
         </StyledNavLink>
-        <StyledNavLink component={NavLink} to="/users">
-          <ListItemAvatar>
-            <Avatar>
-              <PersonIcon />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText>
-            <Typography sx={{ fontSize: "2rem" }}>Users</Typography>
-          </ListItemText>
-        </StyledNavLink>
         <StyledNavLink component={NavLink} to="/settings">
           <ListItemAvatar>
             <Avatar>

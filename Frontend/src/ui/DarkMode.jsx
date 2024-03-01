@@ -1,10 +1,10 @@
 import { Button } from "@mui/material";
-import { DarkModeConsumer } from "../context/DarkModeContext";
+import { useDarkMode } from "../context/DarkModeContext";
 
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 function DarkMode() {
-  const context = DarkModeConsumer();
+  const context = useDarkMode();
   const { isDarkMode, handleDarkMode } = context;
 
   return (

@@ -114,7 +114,7 @@ const createNewRoom = async (room) => {
   } catch (e) {
     console.log(e);
     return {
-      EM: "can not get data",
+      EM: "Creating room fails",
       EC: "-1",
       DT: [],
     };

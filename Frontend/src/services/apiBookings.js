@@ -27,7 +27,7 @@ const fetchBookingById = async (id) => {
   try {
     const response = await axios.get(`${NODE_URL}/api/bookings/read/${id}`);
 
-    return response;
+    return response.DT;
   } catch (error) {
     console.error("Error fetching rooms:", error);
     throw error;
@@ -44,4 +44,14 @@ const updateBooking = async (data) => {
   }
 };
 
-export { fetchAllBooking, fetchBookingById, updateBooking };
+const addBooking = async (data) => {
+  try {
+    const response = await axios.post(`${NODE_URL}/api/bookings/create`, data);
+
+    return response;
+  } catch (error) {
+    console.error("Error updating room:", error);
+    throw error;
+  }
+};
+export { fetchAllBooking, fetchBookingById, updateBooking, addBooking };

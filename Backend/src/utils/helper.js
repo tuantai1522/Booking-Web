@@ -25,6 +25,23 @@ const deleteImageOnCloudinary = async (imageString) => {
   }
 };
 
+const calcDate = (input, days, months, years) => {
+  return new Date(
+    input.getFullYear() + years,
+    input.getMonth() + months,
+    Math.min(
+      input.getDate() + days,
+      new Date(
+        input.getFullYear() + years,
+        input.getMonth() + months + 1,
+        0
+      ).getDate()
+    )
+  );
+};
+
+//console.log(deltaDate(new Date(), 0, -1, 0));
 module.exports = {
   deleteImageOnCloudinary,
+  calcDate,
 };

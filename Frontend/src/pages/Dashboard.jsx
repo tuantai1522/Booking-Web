@@ -1,10 +1,9 @@
 import { Typography } from "@mui/material";
+import DashboardLayout from "../features/dashboard/DashboardLayout";
 function Dashboard() {
   return (
     <>
-      <Typography variant="h1" component="h1">
-        Dashboard
-      </Typography>
+      <DashboardLayout />
     </>
   );
 }

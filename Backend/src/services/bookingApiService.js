@@ -105,6 +105,21 @@ const readBooking = async (
 const readBookingById = async (id) => {
   try {
     const booking = await db.Booking.findOne({
+      attributes: [
+        "id",
+        "createdAt",
+        "startDate",
+        "endDate",
+        "extraPrice",
+        "guestId",
+        "hasBreakfast",
+        "isPaid",
+        "numGuests",
+        "observations",
+        "roomId",
+        "roomPrice",
+        "status",
+      ],
       include: [
         {
           model: db.Guest,
@@ -199,8 +214,68 @@ const updateBooking = async (data) => {
     };
   }
 };
+
+const createBooking = async (booking) => {
+  try {
+    //To find room by roomId
+    const { roomId, numGuests } = booking;
+    const room = await db.Room.findOne({
+      attributes: ["id", "name", "maxCapacity", "regularPrice", "discount"],
+      where: {
+        id: roomId,
+      },
+    });
+
+    if (parseInt(numGuests) > parseInt(room.maxCapacity)) {
+      return {
+        EM: `This room only has maximum ${room.maxCapacity} guests`,
+        EC: "1",
+        DT: [],
+      };
+    }
+
+    const roomPrice = room.regularPrice - room.discount;
+
+    const setting = await db.Setting.findOne({
+      attributes: [
+        "id",
+        "minBookingLength",
+        "maxBookingLength",
+        "maxGuestsPerRoom",
+        "breakfastPrice",
+      ],
+    });
+    let extraPrice = 0;
+
+    if (parseInt(booking.hasBreakfast) === 1) {
+      extraPrice = numGuests * setting.breakfastPrice;
+    }
+    const data = {
+      ...booking,
+      roomPrice,
+      extraPrice,
+      status: "unconfirmed",
+      isPaid: 0,
+    };
+
+    await db.Booking.create(data);
+    return {
+      EM: `Create booking successfully`,
+      EC: "0",
+      DT: [],
+    };
+  } catch (e) {
+    console.log(e);
+    return {
+      EM: "Creating booking fails",
+      EC: "-1",
+      DT: [],
+    };
+  }
+};
 module.exports = {
   readBooking,
   readBookingById,
   updateBooking,
+  createBooking,
 };
